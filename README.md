@@ -23,46 +23,66 @@ A single-file HTML page that presents CRAFTSMAN+ SAAS platform performance data 
 
 ---
 
+## Navigation
+
+Four tabs in the top nav bar (logo left, nav and badge right):
+
+| Tab | Purpose |
+|---|---|
+| **Executive Summary** | Hero stats, cost breakdown, and the full Synergy of Scale interactive tool |
+| **KPIs** | All key numbers in a clean quick-glance format for Nick |
+| **Platform Benchmarks** | Detailed stat cards with data filter notes |
+| **Partner Breakdown** | Full partner table sorted by contract value |
+
+---
+
 ## Sections
 
-### Executive Summary
-The main landing section. Built for Nick and UA managers to pull key data points for the website.
+### KPIs
+The fastest way for Nick to pull numbers for the website. Five groups, no charts, pure data:
+- Cost efficiency vs. agency ($3,000 benchmark, 87% savings, 99% best case)
+- Cost per playable (min / median ★ / avg / max)
+- Cost per asset created (min / median ★ / avg / max)
+- Platform volume (total exports, total assets, active partners)
+- Monthly export rate (min / median / avg / max)
+- Pricing tiers ($2,500 base → $12,000 unlimited)
 
-- **Hero stats** — median cost per playable, platform savings vs agency, total exports all-time, total assets created
-- **Cost breakdown** — min / median / avg / max for both cost per playable and cost per asset, with visual bars
-- **Synergy of Scale** — interactive pricing calculator (see below)
+★ = recommended marketing anchor
+
+### Executive Summary
+Hero stats for UA managers plus the full **Synergy of Scale** interactive pricing calculator (see below).
 
 ### Platform Benchmarks
-Detailed stat cards for cost per playable, cost per asset, and monthly export volume. Includes data quality notes explaining which months were excluded and why.
+Detailed stat cards for cost per playable, cost per asset, and monthly export volume. Includes data filter notes.
 
 ### Partner Breakdown
-Full partner table sorted by contract value. Shows avg / min / max cost per playable and monthly export volume per partner, with above/below market indicators.
+Full partner table sorted by contract value. Shows avg / min / max cost per playable and avg monthly exports per partner (zero months excluded), with above/below market indicators.
 
 ---
 
 ## Interactive: Synergy of Scale
 
-The most UA-facing section. Located at the bottom of the Executive Summary tab.
+Located at the bottom of the Executive Summary tab.
 
 **Seat selector (buttons 1–10 + Unlimited)**
-- Click any number to select a seat count
-- Monthly cost updates based on the pricing model:
-  - 1 seat: $2,500/mo
-  - Each additional seat: +$1,000/mo
-  - 10+ seats: $12,000/mo (Unlimited)
-- Stat cards update live: exports at tier, effective cost/export, savings vs agency
+- 1 seat: $2,500/mo
+- Each additional seat: +$1,000/mo
+- Unlimited (10+ seats): $12,000/mo flat
+- Stat cards update live: exports at tier, effective cost/export, % savings vs agency
 
 **Export volume slider**
 - Drag to set monthly export volume (1–100)
-- Updates three readout cards: cost per export at that volume, agency equivalent cost, % savings
-- Synced with chart hover — moving the slider moves the crosshair on the chart and vice versa
+- Synced with chart hover — moving the slider moves the crosshair on both charts simultaneously
 
-**Chart (3 lines)**
-- 🟠 **Orange** — CRAFTSMAN+ cost per export at the selected seat tier (curves down as volume grows)
-- 🔴 **Coral** — Agency flat rate ($3,000/export, horizontal)
-- 🟡 **Gold** — Platform median observed cost/playable ($385, horizontal reference)
+**Two side-by-side charts**
 
-When the orange curve drops below the gold line, the user is at efficient scale — producing at or below the platform median.
+| Chart | Color | What it shows |
+|---|---|---|
+| Cost per Export | Orange | Seat cost ÷ exports/month — curves down as volume grows |
+| Cost per Asset | Gold | Seat cost ÷ assets/month — curves down in parallel |
+| Agency rate | Coral dashed | Flat $3,000 reference line on both charts |
+
+Both charts share the same slider. Hovering either chart syncs the slider and updates all readout cards. Each chart has its own live readout below showing the cost at the current volume.
 
 ---
 
@@ -70,12 +90,16 @@ When the orange curve drops below the gold line, the user is at efficient scale 
 
 All data sourced from the SAAS Closed Deals Monday board, refined sheet (`saas closed deals (1)`).
 
-| Filter applied | Reason |
-|---|---|
-| Excluded months with < 2 exports | Removes single-export billing anomalies (Adikteev $17,857; T-Mobile legacy $20,625) |
-| Excluded $0 contract value partners | Not active/relevant for benchmarking |
+### Filters Applied
 
-**Key numbers (post-filter):**
+| Filter | Reason |
+|---|---|
+| Cost per playable: exports ≥ 2/mo | Removes single-export billing anomalies (Adikteev $17,857; T-Mobile legacy $20,625 at 0 exports) |
+| Cost per asset: assets_created ≥ 2/mo | Removes low-asset months inflating cost (T-Mobile $22,000 at 1 asset → $11,000 at 2 assets) |
+| Avg exports/mo: zero months excluded | Prevents zero-output months from skewing partner averages (Niantic, Inmobi) |
+| Partners with $0 contract value | Not active/relevant for benchmarking |
+
+### Key Numbers (post-filter)
 
 | Metric | Value |
 |---|---|
@@ -83,10 +107,19 @@ All data sourced from the SAAS Closed Deals Monday board, refined sheet (`saas c
 | Average cost / playable | $1,136 |
 | Min cost / playable | $30 |
 | Max cost / playable | $8,928 |
-| Savings vs $3,000 agency rate (median) | 87% |
+| Savings vs $3,000 agency (median) | 87% |
+| Savings vs $3,000 agency (best case) | 99% |
+| Median cost / asset created | $346 |
+| Average cost / asset created | $1,240 |
+| Min cost / asset created | $42 |
+| Max cost / asset created | $11,000 |
 | Total exports all-time | 4,062 |
 | Total assets created all-time | 4,276 |
-| Active data points used | 145 months across 17 partners |
+| Active partners | 17 |
+| Median exports / month | 8 |
+| Average exports / month | 22 |
+| Max exports / month | 211 (Ludus Ventures, Month 06) |
+| Active data points used | 145 months (cost/playable) · 165 months (cost/asset) |
 
 ---
 
@@ -94,9 +127,17 @@ All data sourced from the SAAS Closed Deals Monday board, refined sheet (`saas c
 
 | Name | Hex | Usage |
 |---|---|---|
-| Orange | `#FA6C00` | Primary brand, savings, active states |
-| Coral | `#EB5173` | Agency cost, above-market indicators |
-| Gold | `#FEC01F` | Platform median reference, slider thumb |
+| Orange | #FA6C00 | Primary brand, savings, active states, cost per export |
+| Coral | #EB5173 | Agency cost, above-market indicators, accent |
+| Gold | #FEC01F | Cost per asset, slider thumb, median highlights |
+
+---
+
+## Layout
+
+- **Top nav**: logo anchored left via `margin-right: auto`; nav links and "Internal Use Only" badge anchored right
+- **Content**: centered, max-width 920px, no sidebar
+- **Responsive**: single column on narrow viewports
 
 ---
 
@@ -104,23 +145,22 @@ All data sourced from the SAAS Closed Deals Monday board, refined sheet (`saas c
 
 Loaded via CDN — no install required.
 
-- [Poppins](https://fonts.google.com/specimen/Poppins) — Google Fonts
-- [Chart.js 4.4.0](https://www.chartjs.org/) — cdnjs.cloudflare.com
+- Poppins — Google Fonts
+- Chart.js 4.4.0 — cdnjs.cloudflare.com
 
-The page requires an internet connection to load the font and chart library. For a fully offline version, these would need to be bundled locally.
+> Requires an internet connection to load the font and chart library. For a fully offline version, these would need to be bundled locally.
 
 ---
 
 ## Deployment
 
-This is a static file. To deploy:
+Static file — no build process required.
 
-1. Upload both `craftsman_platform_intelligence.html` and `LOGO_LIGHT_CRAFTSMAN_PLUS.png` to the same directory in your GitHub repo or hosting provider
-2. No build process, no server required
-3. Works with GitHub Pages, Netlify, Vercel static hosting, or any web server
+1. Upload both `craftsman_platform_intelligence.html` and `LOGO_LIGHT_CRAFTSMAN_PLUS.png` to the same directory
+2. Works with GitHub Pages, Netlify, Vercel, or any static host
 
 ---
 
 ## Ownership
 
-Built from CRAFTSMAN+ internal SAAS data. Intended for internal review and website content development only. Not for external distribution.
+Built from CRAFTSMAN+ internal SAAS data. For internal review and website content development only. Not for external distribution.
