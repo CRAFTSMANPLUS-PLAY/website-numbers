@@ -44,6 +44,7 @@
 
   /* ── SIDEBAR ─────────────────────────────────────────────────────── */
   .sidebar {
+    display: none;
     width: var(--sidebar-w); flex-shrink: 0;
     background: var(--surf); border-right: 1px solid var(--bord);
     padding: 20px 10px; position: fixed; top: 56px; bottom: 0;
@@ -74,7 +75,7 @@
   }
 
   /* ── MAIN CONTENT ────────────────────────────────────────────────── */
-  .main { margin-left: var(--sidebar-w); flex: 1; padding: 40px 48px 80px; max-width: 920px; margin-right: auto; }
+  .main { margin: 0 auto; padding: 40px 48px 80px; max-width: 920px; width: 100%; }
   .section { display: none; }
   .section.active { display: block; }
 
