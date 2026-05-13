@@ -40,42 +40,20 @@
   }
 
   /* ── LAYOUT ──────────────────────────────────────────────────────── */
-  .layout { display: flex; padding-top: 56px; min-height: calc(100vh - 56px); }
+  .layout { display: flex; padding-top: 56px; min-height: calc(100vh - 56px); justify-content: center; }
 
-  /* ── SIDEBAR ─────────────────────────────────────────────────────── */
-  .sidebar {
-    display: none;
-    width: var(--sidebar-w); flex-shrink: 0;
-    background: var(--surf); border-right: 1px solid var(--bord);
-    padding: 20px 10px; position: fixed; top: 56px; bottom: 0;
-    overflow-y: auto;
+  /* ── TOP NAV LINKS ───────────────────────────────────────────────── */
+  .topnav-nav { display: flex; align-items: center; gap: 4px; margin-left: 36px; }
+  .topnav-link {
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
   }
-  .sidebar-heading {
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-    color: var(--dim); text-transform: uppercase;
-    padding: 6px 12px 4px;
-  }
-  .sidebar-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 12px; border-radius: 6px; cursor: pointer;
-    font-size: 13px; color: var(--muted); transition: all 0.15s;
-  }
-  .sidebar-item:hover { background: var(--surf2); color: var(--text); }
-  .sidebar-item.active { background: #2A1200; color: var(--orange); font-weight: 500; }
-  .sidebar-item .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--orange); flex-shrink: 0; opacity: 0;
-  }
-  .sidebar-item.active .dot { opacity: 1; }
-  .sidebar-divider { height: 1px; background: var(--bord); margin: 12px 10px; }
-  .sidebar-footer {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 14px 16px; border-top: 1px solid var(--bord);
-    font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 8px;
-  }
+  .topnav-link:hover { color: var(--text); background: var(--surf2); }
+  .topnav-link.active { color: var(--text); background: var(--surf2); }
 
   /* ── MAIN CONTENT ────────────────────────────────────────────────── */
-  .main { margin: 0 auto; padding: 40px 48px 80px; max-width: 920px; width: 100%; }
+  .main { width: 100%; max-width: 920px; padding: 40px 48px 80px; }
   .section { display: none; }
   .section.active { display: block; }
 
@@ -166,29 +144,17 @@
 <!-- ── TOP NAV ───────────────────────────────────────────────────────── -->
 <nav class="topnav">
   <img src="LOGO_LIGHT_CRAFTSMAN_PLUS.png" alt="CRAFTSMAN+" class="topnav-logo">
+  <div class="topnav-nav">
+    <span class="topnav-link active" onclick="showSection('overview', this)">Executive Summary</span>
+    <span class="topnav-link" onclick="showSection('kpis', this)">KPIs</span>
+    <span class="topnav-link" onclick="showSection('benchmarks', this)">Platform Benchmarks</span>
+    <span class="topnav-link" onclick="showSection('partners', this)">Partner Breakdown</span>
+  </div>
   <div class="topnav-badge">Internal Use Only</div>
 </nav>
 
 <!-- ── LAYOUT ────────────────────────────────────────────────────────── -->
 <div class="layout">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-heading">Platform Intel</div>
-    <div class="sidebar-item active" onclick="showSection('overview', this)">
-      <div class="dot"></div> Executive Summary
-    </div>
-
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-heading">Cost Analysis</div>
-    <div class="sidebar-item" onclick="showSection('benchmarks', this)">
-      <div class="dot"></div> Platform Benchmarks
-    </div>
-    <div class="sidebar-item" onclick="showSection('partners', this)">
-      <div class="dot"></div> Partner Breakdown
-    </div>
-
-  </aside>
 
   <!-- Main -->
   <main class="main">
@@ -268,21 +234,21 @@
             <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:0.5%;height:3px;background:var(--coral);border-radius:2px"></div></div>
             <div style="display:flex;justify-content:space-between;align-items:center">
               <span style="font-size:12px;color:var(--muted)">Median</span>
-              <span style="font-size:18px;font-weight:700;color:var(--orange)">$417</span>
+              <span style="font-size:18px;font-weight:700;color:var(--orange)">$346</span>
             </div>
             <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:19%;height:3px;background:var(--orange);border-radius:2px"></div></div>
             <div style="display:flex;justify-content:space-between;align-items:center">
               <span style="font-size:12px;color:var(--muted)">Average</span>
-              <span style="font-size:18px;font-weight:700;color:var(--muted)">$1,777</span>
+              <span style="font-size:18px;font-weight:700;color:var(--muted)">$1,240</span>
             </div>
             <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:81%;height:3px;background:var(--muted);border-radius:2px"></div></div>
             <div style="display:flex;justify-content:space-between;align-items:center">
               <span style="font-size:12px;color:var(--muted)">Max</span>
-              <span style="font-size:18px;font-weight:700;color:var(--dim)">$22,000</span>
+              <span style="font-size:18px;font-weight:700;color:var(--dim)">$11,000</span>
             </div>
             <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:100%;height:3px;background:var(--dim);border-radius:2px"></div></div>
             <div class="hint hint-gray mt-8" style="margin:8px 0 0;font-size:11px">
-              Industry design rate: $800–$2,000 · Platform median saves <strong style="color:var(--orange)">~48%</strong>
+              Industry design rate: $800–$2,000 · Platform median saves <strong style="color:var(--orange)">~53%</strong>
             </div>
           </div>
         </div>
@@ -335,34 +301,230 @@
 
       <!-- Chart -->
       <div class="card" style="padding:20px 24px">
-        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cost per export vs. monthly volume</div>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cost per unit vs. monthly volume</div>
         <div style="font-size:11px;color:var(--dim);margin-bottom:12px">
-          <span style="color:var(--orange)">●</span> CRAFTSMAN+ at selected tier &nbsp;
-          <span style="color:var(--coral)">●</span> Agency rate ($3,000) &nbsp;
-          <span style="color:var(--gold)">●</span> Platform median cost/playable ($385)
+          <span style="color:var(--orange)">—</span> Cost per export (playable) &nbsp;&nbsp;
+          <span style="color:var(--gold)">—</span> Cost per asset created &nbsp;&nbsp;
+          <span style="color:var(--coral)">- -</span> Agency rate ($3,000 flat)
         </div>
+
+        <!-- Slider -->
         <div class="slider-row">
-          <label>Your monthly exports:</label>
+          <label>Monthly volume:</label>
           <input type="range" id="exportSlider" min="1" max="100" value="8" step="1" oninput="onSliderMove(this.value)">
           <span class="slider-val" id="sliderVal">8</span>
         </div>
+
+        <!-- 3 stat cards -->
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 16px">
-          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">At this volume</div>
-            <div style="font-size:18px;font-weight:700;color:var(--orange)" id="sliderCPE">$313/export</div>
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px;border-left:3px solid var(--orange)">
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cost / export</div>
+            <div style="font-size:20px;font-weight:700;color:var(--orange)" id="sliderCPE">$313</div>
+            <div style="font-size:11px;color:var(--dim);margin-top:3px" id="sliderExportVol">8 exports/mo</div>
           </div>
-          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px;border-left:3px solid var(--gold)">
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cost / asset</div>
+            <div style="font-size:20px;font-weight:700;color:var(--gold)" id="sliderCPA">$281</div>
+            <div style="font-size:11px;color:var(--dim);margin-top:3px" id="sliderAssetVol">~9 assets/mo</div>
+          </div>
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px;border-left:3px solid var(--coral)">
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Agency equiv.</div>
-            <div style="font-size:18px;font-weight:700;color:var(--coral)" id="sliderAgency">$24,000</div>
-          </div>
-          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
-            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">You save</div>
-            <div style="font-size:18px;font-weight:700;color:var(--gold)" id="sliderSave">90%</div>
+            <div style="font-size:20px;font-weight:700;color:var(--coral)" id="sliderAgency">$24,000</div>
+            <div style="font-size:11px;color:var(--dim);margin-top:3px" id="sliderSave">You save 90%</div>
           </div>
         </div>
-        <div class="chart-container"><canvas id="scaleChart"></canvas></div>
-        <div class="chart-note" id="chartNote">At 1 seat ($2,500/mo): producing 8 exports/mo = $313/export — vs $3,000 agency. Produce more, pay less per export.</div>
+
+        <!-- Chart canvas - side by side -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:4px">
+
+          <!-- Left: Cost per Export -->
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div style="width:12px;height:3px;background:var(--orange);border-radius:2px"></div>
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Cost per Export</span>
+            </div>
+            <div style="position:relative;height:260px"><canvas id="exportChart"></canvas></div>
+            <div style="text-align:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--bord)">
+              <div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">At <span id="bottomExports" style="color:var(--orange)">8</span> exports/mo</div>
+              <div style="font-size:26px;font-weight:700;color:var(--orange)" id="bottomCPE">$313<span style="font-size:12px;font-weight:400;color:var(--muted)">/export</span></div>
+            </div>
+          </div>
+
+          <!-- Right: Cost per Asset -->
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div style="width:12px;height:3px;background:var(--gold);border-radius:2px"></div>
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Cost per Asset Created</span>
+            </div>
+            <div style="position:relative;height:260px"><canvas id="assetChart"></canvas></div>
+            <div style="text-align:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--bord)">
+              <div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">At <span id="bottomAssets" style="color:var(--gold)">~9</span> assets/mo</div>
+              <div style="font-size:26px;font-weight:700;color:var(--gold)" id="bottomCPA">$281<span style="font-size:12px;font-weight:400;color:var(--muted)">/asset</span></div>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </div>
+
+    <!-- ── KPIs ─────────────────────────────────────────────────────────── -->
+    <div id="section-kpis" class="section">
+      <div class="eyebrow">Quick Reference</div>
+      <h1>KPI Snapshot</h1>
+      <p class="lead" style="margin-bottom:32px">All key numbers in one place. Filters applied: ≥2 exports/month for cost per playable, ≥2 assets/month for cost per asset. Zero-export months excluded from avg exports.</p>
+
+      <!-- Cost Efficiency -->
+      <div style="margin-bottom:32px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Cost Efficiency vs. Agency</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div class="card" style="border-left:3px solid var(--orange)">
+            <div class="stat-label">Agency benchmark</div>
+            <div class="stat-value" style="color:var(--coral)">$3,000</div>
+            <div class="stat-sub">per playable · industry standard</div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--orange)">
+            <div class="stat-label">Platform savings (median)</div>
+            <div class="stat-value" style="color:var(--orange)">87%</div>
+            <div class="stat-sub">cheaper than agency rate</div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--orange)">
+            <div class="stat-label">Best case savings</div>
+            <div class="stat-value" style="color:var(--orange)">99%</div>
+            <div class="stat-sub">$30 observed vs $3,000 agency</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cost per Playable -->
+      <div style="margin-bottom:32px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Cost per Playable <span style="color:var(--dim);font-weight:400">(exports ≥ 2/mo)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div class="card">
+            <div class="stat-label">Min</div>
+            <div class="stat-value" style="color:var(--coral);font-size:26px">$30</div>
+            <div class="stat-sub">lowest observed</div>
+          </div>
+          <div class="card" style="border:1px solid var(--orange)44">
+            <div class="stat-label">Median ★</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">$385</div>
+            <div class="stat-sub">recommended anchor</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Average</div>
+            <div class="stat-value" style="color:var(--muted);font-size:26px">$1,136</div>
+            <div class="stat-sub">mean across all months</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Max</div>
+            <div class="stat-value" style="color:var(--dim);font-size:26px">$8,928</div>
+            <div class="stat-sub">Adikteev edge case</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cost per Asset -->
+      <div style="margin-bottom:32px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Cost per Asset Created <span style="color:var(--dim);font-weight:400">(assets ≥ 2/mo)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div class="card">
+            <div class="stat-label">Min</div>
+            <div class="stat-value" style="color:var(--coral);font-size:26px">$42</div>
+            <div class="stat-sub">lowest observed</div>
+          </div>
+          <div class="card" style="border:1px solid var(--gold)44">
+            <div class="stat-label">Median ★</div>
+            <div class="stat-value" style="color:var(--gold);font-size:26px">$346</div>
+            <div class="stat-sub">recommended anchor</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Average</div>
+            <div class="stat-value" style="color:var(--muted);font-size:26px">$1,240</div>
+            <div class="stat-sub">mean across all months</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Max</div>
+            <div class="stat-value" style="color:var(--dim);font-size:26px">$11,000</div>
+            <div class="stat-sub">T-Mobile edge case</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform Volume -->
+      <div style="margin-bottom:32px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Platform Volume</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div class="card">
+            <div class="stat-label">Total exports all-time</div>
+            <div class="stat-value" style="color:var(--coral)">4,062</div>
+            <div class="stat-sub">across all active partners</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Total assets created</div>
+            <div class="stat-value" style="color:var(--coral)">4,276</div>
+            <div class="stat-sub">across all active partners</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Active partners</div>
+            <div class="stat-value" style="color:var(--muted)">17</div>
+            <div class="stat-sub">non-zero contract value</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Exports -->
+      <div style="margin-bottom:32px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Monthly Export Rate <span style="color:var(--dim);font-weight:400">(active months only)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div class="card">
+            <div class="stat-label">Min</div>
+            <div class="stat-value" style="color:var(--dim);font-size:26px">1</div>
+            <div class="stat-sub">exports / month</div>
+          </div>
+          <div class="card" style="border:1px solid var(--orange)44">
+            <div class="stat-label">Median ★</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">8</div>
+            <div class="stat-sub">exports / month</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Average</div>
+            <div class="stat-value" style="color:var(--muted);font-size:26px">22</div>
+            <div class="stat-sub">exports / month</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">Max ever</div>
+            <div class="stat-value" style="font-size:26px">211</div>
+            <div class="stat-sub">Ludus Ventures · Month 06</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Tiers -->
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bord)">Pricing Tiers</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div class="card">
+            <div class="stat-label">1 seat</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">$2,500</div>
+            <div class="stat-sub">/ month base</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">+1 seat</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">+$1,000</div>
+            <div class="stat-sub">/ month per additional</div>
+          </div>
+          <div class="card">
+            <div class="stat-label">10 seats</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">$11,500</div>
+            <div class="stat-sub">/ month</div>
+          </div>
+          <div class="card" style="border:1px solid var(--orange)44">
+            <div class="stat-label">Unlimited ★</div>
+            <div class="stat-value" style="color:var(--orange);font-size:26px">$12,000</div>
+            <div class="stat-sub">/ month · all seats</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ── PLATFORM BENCHMARKS ───────────────────────────────────────── -->
@@ -390,11 +552,11 @@
         <h2>Cost per asset created</h2>
         <div class="grid-4 mb-12">
           <div class="card"><div class="stat-label">Min</div><div class="stat-value" style="color:var(--coral);font-size:24px">$42</div></div>
-          <div class="card"><div class="stat-label">Median</div><div class="stat-value" style="color:var(--orange);font-size:24px">$417</div></div>
-          <div class="card"><div class="stat-label">Average</div><div class="stat-value" style="color:var(--muted);font-size:24px">$1,777</div></div>
-          <div class="card"><div class="stat-label">Max</div><div class="stat-value" style="color:var(--dim);font-size:24px">$22,000</div></div>
+          <div class="card"><div class="stat-label">Median</div><div class="stat-value" style="color:var(--orange);font-size:24px">$346</div></div>
+          <div class="card"><div class="stat-label">Average</div><div class="stat-value" style="color:var(--muted);font-size:24px">$1,240</div></div>
+          <div class="card"><div class="stat-label">Max</div><div class="stat-value" style="color:var(--dim);font-size:24px">$11,000</div></div>
         </div>
-        <div class="hint hint-gray">Asset cost peaks from T-Mobile months with minimal output. Median $417 compares favorably to production design rates of $800–$2,000+.</div>
+        <div class="hint hint-gray">Asset cost peaks from T-Mobile months with minimal output. Median $346 compares favorably to production design rates of $800–$2,000+.</div>
       </div>
 
       <div>
@@ -428,21 +590,21 @@
           const partners = [
             { name:"T-Mobile",            contract:528000, avg:2334, min:34,   max:7333,  exp:23 },
             { name:"Adikteev",            contract:249998, avg:5655, min:3571, max:8928,  exp:3  },
-            { name:"Nanobit",             contract:72000,  avg:879,  min:88,   max:3000,  exp:20 },
-            { name:"Niantic",             contract:66600,  avg:7400, min:7400, max:7400,  exp:0  },
+            { name:"Nanobit",             contract:72000,  avg:879,  min:88,   max:3000,  exp:25 },
+            { name:"Niantic",             contract:66600,  avg:7400, min:7400, max:7400,  exp:1  },
             { name:"Wildcard",            contract:60000,  avg:268,  min:71,   max:625,   exp:24 },
-            { name:"We Are Wildcards",    contract:60000,  avg:442,  min:152,  max:1000,  exp:14 },
+            { name:"We Are Wildcards",    contract:60000,  avg:442,  min:152,  max:1000,  exp:17 },
             { name:"Stillfront",          contract:54000,  avg:268,  min:37,   max:667,   exp:56 },
-            { name:"RZR",                 contract:52500,  avg:765,  min:96,   max:2500,  exp:12 },
-            { name:"Inmobi",              contract:50551,  avg:1500, min:1500, max:1500,  exp:0  },
-            { name:"Remerge",             contract:48000,  avg:868,  min:156,  max:2250,  exp:6  },
+            { name:"RZR",                 contract:52500,  avg:765,  min:96,   max:2500,  exp:15 },
+            { name:"Inmobi",              contract:50551,  avg:1500, min:1500, max:1500,  exp:2  },
+            { name:"Remerge",             contract:48000,  avg:868,  min:156,  max:2250,  exp:9  },
             { name:"Kashkick",            contract:42000,  avg:38,   min:38,   max:38,    exp:91 },
-            { name:"Prodege",             contract:42000,  avg:642,  min:583,  max:700,   exp:2  },
+            { name:"Prodege",             contract:42000,  avg:642,  min:583,  max:700,   exp:3  },
             { name:"Million Dreams Games",contract:30000,  avg:357,  min:357,  max:357,   exp:4  },
             { name:"Lightricks",          contract:15000,  avg:640,  min:30,   max:1250,  exp:86 },
             { name:"Pocketworlds",        contract:9000,   avg:500,  min:250,  max:750,   exp:8  },
             { name:"Vebo",                contract:7500,   avg:283,  min:208,  max:357,   exp:10 },
-            { name:"Gameberrylabs",       contract:5850,   avg:488,  min:325,  max:650,   exp:3  },
+            { name:"Gameberrylabs",       contract:5850,   avg:488,  min:325,  max:650,   exp:4  },
           ];
           document.write(partners.map(p => {
             const below = p.avg < 3000;
@@ -476,7 +638,7 @@
   // ── Section switching ────────────────────────────────────────────────
   function showSection(id, el) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.topnav-link').forEach(s => s.classList.remove('active'));
     document.getElementById('section-' + id).classList.add('active');
     el.classList.add('active');
   }
@@ -484,7 +646,9 @@
   // ── Pricing model ────────────────────────────────────────────────────
   const EXPORTS_PER_SEAT  = 8;
   const AGENCY_RATE       = 3000;
-  const PLATFORM_MEDIAN   = 385;
+  // Ratio from real data: median CPP $385 vs median CPA $346 → assets slightly cheaper
+  // Also: total assets (4276) / total exports (4062) = 1.053 assets per export
+  const ASSETS_PER_EXPORT = 1.053;
   let   currentSeatCost   = 2500;
   let   currentExportVol  = 8;
 
@@ -496,12 +660,14 @@
     document.querySelectorAll('.seat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentSeatCost = seatCost(seats);
-    const isUnlimited   = seats === 0;
+    const isUnlimited     = seats === 0;
     const exportsPerMonth = isUnlimited ? 50 : seats * EXPORTS_PER_SEAT;
-    const cpe           = Math.round(currentSeatCost / exportsPerMonth);
-    const agencyCost    = exportsPerMonth * AGENCY_RATE;
-    const savings       = Math.round((agencyCost - currentSeatCost) / agencyCost * 100);
-    const cps           = isUnlimited ? 'Unlimited seats' : '$' + Math.round(currentSeatCost / seats).toLocaleString() + ' per seat';
+    const cpe             = Math.round(currentSeatCost / exportsPerMonth);
+    const assetsPerMonth  = Math.round(exportsPerMonth * ASSETS_PER_EXPORT);
+    const cpa             = Math.round(currentSeatCost / assetsPerMonth);
+    const agencyCost      = exportsPerMonth * AGENCY_RATE;
+    const savings         = Math.round((agencyCost - currentSeatCost) / agencyCost * 100);
+    const cps             = isUnlimited ? 'Unlimited seats' : '$' + Math.round(currentSeatCost / seats).toLocaleString() + ' per seat';
 
     document.getElementById('costAmount').textContent    = '$' + currentSeatCost.toLocaleString();
     document.getElementById('costPerSeat').textContent   = '· ' + cps;
@@ -509,25 +675,35 @@
     document.getElementById('scaleCPE').textContent      = '$' + cpe.toLocaleString();
     document.getElementById('scaleSavings').textContent  = savings + '%';
     document.getElementById('scaleSavingsSub').textContent = 'vs $' + agencyCost.toLocaleString() + ' agency equiv.';
-    document.getElementById('chartNote').textContent =
-      isUnlimited
-        ? 'Unlimited tier ($12,000/mo): at 50 exports/mo = $240/export — vs $3,000 agency. Scale without limits.'
-        : `At ${seats} seat${seats>1?'s':''} ($${currentSeatCost.toLocaleString()}/mo): ${exportsPerMonth} exports/mo = $${cpe}/export — vs $${agencyCost.toLocaleString()} agency equivalent.`;
 
-    updateChart(seats);
+    updateCharts(seats);
     onSliderMove(currentExportVol);
   }
 
-  // ── Slider interaction ───────────────────────────────────────────────
+  // ── Slider + dual readout ────────────────────────────────────────────
   function onSliderMove(val) {
-    currentExportVol = parseInt(val);
-    document.getElementById('sliderVal').textContent = val;
-    const cpe     = Math.round(currentSeatCost / currentExportVol);
-    const agency  = currentExportVol * AGENCY_RATE;
-    const savings = Math.round((agency - currentSeatCost) / agency * 100);
-    document.getElementById('sliderCPE').textContent    = '$' + cpe.toLocaleString() + '/export';
-    document.getElementById('sliderAgency').textContent = '$' + agency.toLocaleString();
-    document.getElementById('sliderSave').textContent   = savings + '%';
+    currentExportVol    = parseInt(val);
+    const exports       = currentExportVol;
+    const assets        = Math.round(exports * ASSETS_PER_EXPORT);
+    const cpe           = Math.round(currentSeatCost / exports);
+    const cpa           = Math.round(currentSeatCost / assets);
+    const agencyEquiv   = exports * AGENCY_RATE;
+    const savings       = Math.round((agencyEquiv - currentSeatCost) / agencyEquiv * 100);
+
+    document.getElementById('sliderVal').textContent        = val;
+    document.getElementById('sliderCPE').textContent        = '$' + cpe.toLocaleString();
+    document.getElementById('sliderExportVol').textContent  = exports + ' exports/mo';
+    document.getElementById('sliderCPA').textContent        = '$' + cpa.toLocaleString();
+    document.getElementById('sliderAssetVol').textContent   = '~' + assets + ' assets/mo';
+    document.getElementById('sliderAgency').textContent     = '$' + agencyEquiv.toLocaleString();
+    document.getElementById('sliderSave').textContent       = 'You save ' + savings + '%';
+
+    // Bottom dual readout
+    document.getElementById('bottomExports').textContent = exports;
+    document.getElementById('bottomCPE').innerHTML       = '$' + cpe.toLocaleString() + '<span style="font-size:12px;font-weight:400;color:var(--muted)">/export</span>';
+    document.getElementById('bottomAssets').textContent  = '~' + assets;
+    document.getElementById('bottomCPA').innerHTML       = '$' + cpa.toLocaleString() + '<span style="font-size:12px;font-weight:400;color:var(--muted)">/asset</span>';
+
     setChartCrosshair(currentExportVol - 1);
   }
 
@@ -536,155 +712,127 @@
     id: 'crosshair',
     afterDraw(chart) {
       if (chart._crosshairX == null) return;
+      const meta = chart.getDatasetMeta(0);
+      if (!meta.data[chart._crosshairX]) return;
       const { ctx, chartArea: { top, bottom } } = chart;
-      const x = chart.getDatasetMeta(0).data[chart._crosshairX]?.x;
-      if (x == null) return;
+      const x = meta.data[chart._crosshairX].x;
       ctx.save();
       ctx.beginPath();
-      ctx.moveTo(x, top);
-      ctx.lineTo(x, bottom);
-      ctx.strokeStyle = '#FEC01F55';
-      ctx.lineWidth   = 1.5;
-      ctx.setLineDash([4, 3]);
-      ctx.stroke();
-      ctx.restore();
+      ctx.moveTo(x, top); ctx.lineTo(x, bottom);
+      ctx.strokeStyle = '#ffffff22'; ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 3]); ctx.stroke(); ctx.restore();
     }
   };
 
-  function setChartCrosshair(index) {
-    if (!scaleChartInstance) return;
-    scaleChartInstance._crosshairX = index;
-    scaleChartInstance.draw();
-  }
+  // ── Dual chart instances ─────────────────────────────────────────────
+  let exportChartInstance = null;
+  let assetChartInstance  = null;
 
-  // ── Chart ────────────────────────────────────────────────────────────
-  let scaleChartInstance = null;
-
-  function buildChartData(seats) {
-    const cost      = seatCost(seats);
-    const maxExp    = seats === 0 ? 100 : Math.min(Math.max(seats * EXPORTS_PER_SEAT * 5, 40), 100);
-    const labels    = [], platform = [], agency = [], median = [];
+  function buildSeries(seats) {
+    const cost   = seatCost(seats);
+    const maxExp = Math.min(seats === 0 ? 100 : Math.max(seats * EXPORTS_PER_SEAT * 5, 40), 100);
+    const labels = [], exportCurve = [], assetCurve = [], agencyLine = [];
     for (let e = 1; e <= maxExp; e++) {
+      const a = Math.max(Math.round(e * ASSETS_PER_EXPORT), 1);
       labels.push(e);
-      platform.push(Math.round(cost / e));
-      agency.push(AGENCY_RATE);
-      median.push(PLATFORM_MEDIAN);
+      exportCurve.push(Math.round(cost / e));
+      assetCurve.push(Math.round(cost / a));
+      agencyLine.push(AGENCY_RATE);
     }
-    return { labels, platform, agency, median };
+    return { labels, exportCurve, assetCurve, agencyLine };
   }
 
-  function updateChart(seats) {
-    const { labels, platform, agency, median } = buildChartData(seats);
-    if (scaleChartInstance) {
-      scaleChartInstance.data.labels               = labels;
-      scaleChartInstance.data.datasets[0].data     = platform;
-      scaleChartInstance.data.datasets[1].data     = agency;
-      scaleChartInstance.data.datasets[2].data     = median;
-      scaleChartInstance.update('none');
+  function makeChartOptions(xLabel, yLabel, onHoverCb) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      onHover: onHoverCb,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1E1E1E', borderColor: '#363636', borderWidth: 1,
+          titleColor: '#aaa', bodyColor: '#fff', padding: 10,
+          titleFont: { family: 'Poppins', size: 11 },
+          bodyFont: { family: 'Poppins', size: 12 },
+          callbacks: {
+            title: items => `${items[0].label} ${xLabel}/month`,
+            label: item => `  ${item.dataset.label}: $${item.raw.toLocaleString()}`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: xLabel + ' per month', color: '#555', font: { family: 'Poppins', size: 10 }, padding: { top: 6 } },
+          ticks: { color: '#555', font: { family: 'Poppins', size: 10 }, maxTicksLimit: 8 },
+          grid: { color: '#1e1e1e' }, border: { display: false },
+        },
+        y: {
+          title: { display: true, text: yLabel, color: '#555', font: { family: 'Poppins', size: 10 }, padding: { bottom: 6 } },
+          ticks: { color: '#555', font: { family: 'Poppins', size: 10 }, callback: v => '$' + v.toLocaleString() },
+          grid: { color: '#1e1e1e' }, border: { display: false },
+          min: 0, suggestedMax: 3200,
+        }
+      }
+    };
+  }
+
+  function updateCharts(seats) {
+    const { labels, exportCurve, assetCurve, agencyLine } = buildSeries(seats);
+    if (exportChartInstance) {
+      exportChartInstance.data.labels = labels;
+      exportChartInstance.data.datasets[0].data = exportCurve;
+      exportChartInstance.data.datasets[1].data = agencyLine;
+      exportChartInstance.update('none');
     }
+    if (assetChartInstance) {
+      assetChartInstance.data.labels = labels;
+      assetChartInstance.data.datasets[0].data = assetCurve;
+      assetChartInstance.data.datasets[1].data = agencyLine;
+      assetChartInstance.update('none');
+    }
+  }
+
+  function setChartCrosshair(index) {
+    if (exportChartInstance) { exportChartInstance._crosshairX = index; exportChartInstance.draw(); }
+    if (assetChartInstance)  { assetChartInstance._crosshairX  = index; assetChartInstance.draw();  }
   }
 
   window.addEventListener('load', () => {
-    const ctx = document.getElementById('scaleChart').getContext('2d');
-    const { labels, platform, agency, median } = buildChartData(1);
-
     Chart.register(crosshairPlugin);
+    const { labels, exportCurve, assetCurve, agencyLine } = buildSeries(1);
 
-    scaleChartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'CRAFTSMAN+ (selected tier)',
-            data: platform,
-            borderColor: '#FA6C00',
-            backgroundColor: 'rgba(250,108,0,0.07)',
-            borderWidth: 2.5,
-            pointRadius: 0,
-            fill: true,
-            tension: 0.3,
-            order: 1,
-          },
-          {
-            label: 'Agency rate ($3,000 flat)',
-            data: agency,
-            borderColor: '#EB5173',
-            borderWidth: 1.5,
-            borderDash: [6, 4],
-            pointRadius: 0,
-            fill: false,
-            order: 2,
-          },
-          {
-            label: 'Platform median cost/playable ($385)',
-            data: median,
-            borderColor: '#FEC01F',
-            borderWidth: 1.5,
-            borderDash: [3, 3],
-            pointRadius: 0,
-            fill: false,
-            order: 3,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        onHover: (e, els, chart) => {
-          if (!els.length) return;
-          const idx = els[0].index;
-          chart._crosshairX = idx;
-          document.getElementById('exportSlider').value = idx + 1;
-          onSliderMove(idx + 1);
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: '#666',
-              font: { family: 'Poppins', size: 11 },
-              boxWidth: 14, padding: 20,
-              usePointStyle: true, pointStyle: 'line',
-            }
-          },
-          tooltip: {
-            backgroundColor: '#1E1E1E',
-            borderColor: '#363636',
-            borderWidth: 1,
-            titleColor: '#888',
-            bodyColor: '#fff',
-            padding: 12,
-            titleFont: { family: 'Poppins', size: 11 },
-            bodyFont: { family: 'Poppins', size: 12 },
-            callbacks: {
-              title: items => `${items[0].label} exports / month`,
-              label: item => `  ${item.dataset.label.split('(')[0].trim()}: $${item.raw.toLocaleString()}`,
-            }
-          }
-        },
-        scales: {
-          x: {
-            title: { display: true, text: 'Exports per month', color: '#555', font: { family: 'Poppins', size: 11 }, padding: { top: 8 } },
-            ticks: { color: '#555', font: { family: 'Poppins', size: 10 }, maxTicksLimit: 12 },
-            grid: { color: '#222' },
-            border: { display: false },
-          },
-          y: {
-            title: { display: true, text: 'Cost per export ($)', color: '#555', font: { family: 'Poppins', size: 11 }, padding: { bottom: 8 } },
-            ticks: {
-              color: '#555', font: { family: 'Poppins', size: 10 },
-              callback: v => '$' + v.toLocaleString(),
-            },
-            grid: { color: '#222' },
-            border: { display: false },
-            min: 0, max: 3200,
-          }
-        }
+    const syncSlider = (e, els) => {
+      if (!els.length) return;
+      const idx = els[0].index;
+      document.getElementById('exportSlider').value = idx + 1;
+      onSliderMove(idx + 1);
+    };
+
+    exportChartInstance = new Chart(
+      document.getElementById('exportChart').getContext('2d'), {
+        type: 'line',
+        data: { labels, datasets: [
+          { label: 'Cost per export', data: exportCurve, borderColor: '#FA6C00', backgroundColor: 'rgba(250,108,0,0.08)', borderWidth: 2.5, pointRadius: 0, fill: true, tension: 0.3, clip: false },
+          { label: 'Agency rate',     data: agencyLine,  borderColor: '#EB5173', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false },
+        ]},
+        options: makeChartOptions('exports', 'Cost per export ($)', syncSlider)
       }
-    });
+    );
 
-    scaleChartInstance._crosshairX = 7; // default at 8 exports
+    assetChartInstance = new Chart(
+      document.getElementById('assetChart').getContext('2d'), {
+        type: 'line',
+        data: { labels, datasets: [
+          { label: 'Cost per asset', data: assetCurve,  borderColor: '#FEC01F', backgroundColor: 'rgba(254,192,31,0.07)', borderWidth: 2.5, pointRadius: 0, fill: true, tension: 0.3, clip: false },
+          { label: 'Agency rate',    data: agencyLine,  borderColor: '#EB5173', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false },
+        ]},
+        options: makeChartOptions('assets', 'Cost per asset ($)', syncSlider)
+      }
+    );
+
+    exportChartInstance._crosshairX = 7;
+    assetChartInstance._crosshairX  = 7;
     onSliderMove(8);
   });
 </script>
