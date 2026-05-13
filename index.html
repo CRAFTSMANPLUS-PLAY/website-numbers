@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRAFTSMAN+ · Platform Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #FA6C00;
+    --coral:  #EB5173;
+    --gold:   #FEC01F;
+    --bg:     #0D0D0D;
+    --surf:   #161616;
+    --surf2:  #1E1E1E;
+    --bord:   #2A2A2A;
+    --bord2:  #363636;
+    --text:   #FFFFFF;
+    --muted:  #888888;
+    --dim:    #555555;
+    --sidebar-w: 240px;
+  }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; font-size: 14px; }
+  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+  /* ── TOP NAV ─────────────────────────────────────────────────────── */
+  .topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--surf); border-bottom: 1px solid var(--bord);
+    height: 56px; display: flex; align-items: center; padding: 0 24px;
+  }
+  .topnav-logo { height: 22px; display: block; }
+  .topnav-badge {
+    margin-left: auto;
+    background: var(--orange); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    padding: 6px 14px; border-radius: 6px; text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────────────────── */
+  .layout { display: flex; padding-top: 56px; min-height: calc(100vh - 56px); }
+
+  /* ── SIDEBAR ─────────────────────────────────────────────────────── */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    background: var(--surf); border-right: 1px solid var(--bord);
+    padding: 20px 10px; position: fixed; top: 56px; bottom: 0;
+    overflow-y: auto;
+  }
+  .sidebar-heading {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--dim); text-transform: uppercase;
+    padding: 6px 12px 4px;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 6px; cursor: pointer;
+    font-size: 13px; color: var(--muted); transition: all 0.15s;
+  }
+  .sidebar-item:hover { background: var(--surf2); color: var(--text); }
+  .sidebar-item.active { background: #2A1200; color: var(--orange); font-weight: 500; }
+  .sidebar-item .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange); flex-shrink: 0; opacity: 0;
+  }
+  .sidebar-item.active .dot { opacity: 1; }
+  .sidebar-divider { height: 1px; background: var(--bord); margin: 12px 10px; }
+  .sidebar-footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 14px 16px; border-top: 1px solid var(--bord);
+    font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── MAIN CONTENT ────────────────────────────────────────────────── */
+  .main { margin-left: var(--sidebar-w); flex: 1; padding: 40px 48px 80px; max-width: 920px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── TYPOGRAPHY ──────────────────────────────────────────────────── */
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--orange); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-size: 30px; font-weight: 700; margin-bottom: 10px; line-height: 1.2; }
+  h2 { font-size: 17px; font-weight: 600; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--bord); }
+  .lead { color: var(--muted); line-height: 1.7; margin-bottom: 24px; max-width: 640px; }
+
+  /* ── CARDS ───────────────────────────────────────────────────────── */
+  .card { background: var(--surf); border: 1px solid var(--bord); border-radius: 10px; padding: 20px 22px; }
+  .card:hover { border-color: var(--bord2); }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.8px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .stat-value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .stat-sub { font-size: 11px; color: var(--dim); margin-top: 6px; }
+
+  /* ── HINT BOXES ──────────────────────────────────────────────────── */
+  .hint { border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; line-height: 1.6; margin: 16px 0; }
+  .hint-orange { background: #1A0D00; color: #E8C4A8; }
+  .hint-gray   { background: var(--surf); color: var(--muted); border-left-color: var(--bord2); }
+
+  /* ── SECTION SPACER ──────────────────────────────────────────────── */
+  .mt-8  { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mt-32 { margin-top: 32px; }
+  .mb-12 { margin-bottom: 12px; }
+  .mb-20 { margin-bottom: 20px; }
+  .mb-24 { margin-bottom: 24px; }
+
+  /* ── PARTNER TABLE ───────────────────────────────────────────────── */
+  .table-wrap { border: 1px solid var(--bord); border-radius: 10px; overflow: hidden; }
+  .table-head, .table-row {
+    display: grid;
+    grid-template-columns: 2fr 80px 90px 76px 76px 64px;
+    padding: 10px 18px; align-items: center;
+  }
+  .table-head { background: var(--surf2); font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; }
+  .table-row { border-top: 1px solid var(--bord); font-size: 13px; transition: background 0.1s; }
+  .table-row:hover { background: var(--surf2); }
+  .table-head span:not(:first-child), .table-row span:not(:first-child) { text-align: right; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-top: 2px; }
+  .tag-orange { background: #2A1200; color: var(--orange); }
+  .tag-coral  { background: #2A0A12; color: var(--coral); }
+
+  /* ── SCALE CALCULATOR ────────────────────────────────────────────── */
+  .seats-grid {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 20px 0;
+  }
+  .seat-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1.5px solid var(--bord2);
+    background: transparent; color: var(--muted);
+    font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+  }
+  .seat-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .seat-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .seat-btn.unlimited { width: auto; padding: 0 16px; border-radius: 24px; font-size: 12px; }
+  .cost-display {
+    display: flex; align-items: baseline; gap: 12px;
+    margin: 4px 0 20px;
+  }
+  .cost-amount { font-size: 48px; font-weight: 700; color: var(--orange); line-height: 1; }
+  .cost-period { font-size: 14px; color: var(--muted); }
+  .scale-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .chart-container { position: relative; height: 380px; margin-top: 8px; }
+  .chart-note { font-size: 11px; color: var(--dim); margin-top: 10px; }
+  .slider-row { display: flex; align-items: center; gap: 14px; margin: 16px 0 4px; }
+  .slider-row label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .slider-row input[type=range] {
+    flex: 1; -webkit-appearance: none; height: 3px;
+    background: var(--bord2); border-radius: 2px; outline: none; cursor: pointer;
+  }
+  .slider-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--gold); cursor: pointer; border: 2px solid var(--bg);
+  }
+  .slider-val { font-size: 13px; font-weight: 600; color: var(--gold); min-width: 40px; text-align: right; }
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ───────────────────────────────────────────────────────── -->
+<nav class="topnav">
+  <img src="LOGO_LIGHT_CRAFTSMAN_PLUS.png" alt="CRAFTSMAN+" class="topnav-logo">
+  <div class="topnav-badge">Internal Use Only</div>
+</nav>
+
+<!-- ── LAYOUT ────────────────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-heading">Platform Intel</div>
+    <div class="sidebar-item active" onclick="showSection('overview', this)">
+      <div class="dot"></div> Executive Summary
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-heading">Cost Analysis</div>
+    <div class="sidebar-item" onclick="showSection('benchmarks', this)">
+      <div class="dot"></div> Platform Benchmarks
+    </div>
+    <div class="sidebar-item" onclick="showSection('partners', this)">
+      <div class="dot"></div> Partner Breakdown
+    </div>
+
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- ── OVERVIEW / EXECUTIVE SUMMARY ────────────────────────────── -->
+    <div id="section-overview" class="section active">
+      <div class="eyebrow">Executive Summary</div>
+      <h1>Platform Intelligence</h1>
+      <p class="lead">Key metrics for UA managers. All numbers derived from active CRAFTSMAN+ SAAS partners. Benchmarked against the industry standard of <strong style="color:#fff">$3,000 per playable</strong>.</p>
+
+      <div class="hint hint-orange">
+        <strong style="color:var(--orange)">Data quality note:</strong> Months with fewer than 2 exports excluded from cost/playable calculations. Removes single-export billing anomalies (Adikteev, T-Mobile legacy).
+      </div>
+
+      <!-- Hero stats -->
+      <div class="grid-4 mt-24 mb-24">
+        <div class="card">
+          <div class="stat-label">Median cost / playable</div>
+          <div class="stat-value" style="color:var(--orange)">$385</div>
+          <div class="stat-sub">vs $3,000 agency rate</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Platform savings</div>
+          <div class="stat-value" style="color:var(--orange)">87%</div>
+          <div class="stat-sub">cheaper than agency (median)</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Total exports all-time</div>
+          <div class="stat-value" style="color:var(--coral)">4,062</div>
+          <div class="stat-sub">across all active partners</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Total assets created</div>
+          <div class="stat-value" style="color:var(--coral)">4,276</div>
+          <div class="stat-sub">across all active partners</div>
+        </div>
+      </div>
+
+      <!-- Cost breakdown -->
+      <h2>Cost Breakdown</h2>
+      <div class="grid-2 mb-24">
+        <div class="card">
+          <div class="stat-label mb-12" style="margin-bottom:14px">Cost per playable</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Min</span>
+              <span style="font-size:18px;font-weight:700;color:var(--coral)">$30</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:1%;height:3px;background:var(--coral);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Median</span>
+              <span style="font-size:18px;font-weight:700;color:var(--orange)">$385</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:13%;height:3px;background:var(--orange);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Average</span>
+              <span style="font-size:18px;font-weight:700;color:var(--muted)">$1,136</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:38%;height:3px;background:var(--muted);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Max</span>
+              <span style="font-size:18px;font-weight:700;color:var(--dim)">$8,928</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:100%;height:3px;background:var(--dim);border-radius:2px"></div></div>
+            <div class="hint hint-gray mt-8" style="margin:8px 0 0;font-size:11px">
+              Agency rate: $3,000 · Platform median saves <strong style="color:var(--orange)">87%</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label" style="margin-bottom:14px">Cost per asset created</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Min</span>
+              <span style="font-size:18px;font-weight:700;color:var(--coral)">$42</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:0.5%;height:3px;background:var(--coral);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Median</span>
+              <span style="font-size:18px;font-weight:700;color:var(--orange)">$417</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:19%;height:3px;background:var(--orange);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Average</span>
+              <span style="font-size:18px;font-weight:700;color:var(--muted)">$1,777</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:81%;height:3px;background:var(--muted);border-radius:2px"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:12px;color:var(--muted)">Max</span>
+              <span style="font-size:18px;font-weight:700;color:var(--dim)">$22,000</span>
+            </div>
+            <div style="background:var(--surf2);border-radius:2px;height:3px"><div style="width:100%;height:3px;background:var(--dim);border-radius:2px"></div></div>
+            <div class="hint hint-gray mt-8" style="margin:8px 0 0;font-size:11px">
+              Industry design rate: $800–$2,000 · Platform median saves <strong style="color:var(--orange)">~48%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SCALE CALCULATOR ───────────────────────────────────────── -->
+      <h2>Synergy of Scale</h2>
+      <p class="lead" style="margin-bottom:16px">The more seats you add, the lower the cost per export. Select a seat count to see your effective cost structure — and how it compares to agency rates at the same output volume.</p>
+
+      <!-- Seat selector -->
+      <div class="seats-grid" id="seatBtns">
+        <button class="seat-btn active" onclick="setSeat(1, this)">1</button>
+        <button class="seat-btn" onclick="setSeat(2, this)">2</button>
+        <button class="seat-btn" onclick="setSeat(3, this)">3</button>
+        <button class="seat-btn" onclick="setSeat(4, this)">4</button>
+        <button class="seat-btn" onclick="setSeat(5, this)">5</button>
+        <button class="seat-btn" onclick="setSeat(6, this)">6</button>
+        <button class="seat-btn" onclick="setSeat(7, this)">7</button>
+        <button class="seat-btn" onclick="setSeat(8, this)">8</button>
+        <button class="seat-btn" onclick="setSeat(9, this)">9</button>
+        <button class="seat-btn" onclick="setSeat(10, this)">10</button>
+        <button class="seat-btn unlimited" onclick="setSeat(0, this)">∞ Unlimited</button>
+      </div>
+
+      <!-- Cost display -->
+      <div class="cost-display">
+        <div class="cost-amount" id="costAmount">$2,500</div>
+        <div class="cost-period">/ month</div>
+        <div style="margin-left:16px;font-size:13px;color:var(--muted)" id="costPerSeat">· $2,500 per seat</div>
+      </div>
+
+      <!-- Scale stat cards -->
+      <div class="scale-stats" id="scaleStats">
+        <div class="card">
+          <div class="stat-label">Exports this tier enables</div>
+          <div class="stat-value" style="font-size:22px;color:var(--orange)" id="scaleExports">~8/mo</div>
+          <div class="stat-sub">based on platform median per seat</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Effective cost / export</div>
+          <div class="stat-value" style="font-size:22px;color:var(--orange)" id="scaleCPE">$313</div>
+          <div class="stat-sub">vs $3,000 agency rate</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Savings vs agency</div>
+          <div class="stat-value" style="font-size:22px;color:var(--coral)" id="scaleSavings">90%</div>
+          <div class="stat-sub" id="scaleSavingsSub">at this seat + volume</div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card" style="padding:20px 24px">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Cost per export vs. monthly volume</div>
+        <div style="font-size:11px;color:var(--dim);margin-bottom:12px">
+          <span style="color:var(--orange)">●</span> CRAFTSMAN+ at selected tier &nbsp;
+          <span style="color:var(--coral)">●</span> Agency rate ($3,000) &nbsp;
+          <span style="color:var(--gold)">●</span> Platform median cost/playable ($385)
+        </div>
+        <div class="slider-row">
+          <label>Your monthly exports:</label>
+          <input type="range" id="exportSlider" min="1" max="100" value="8" step="1" oninput="onSliderMove(this.value)">
+          <span class="slider-val" id="sliderVal">8</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 16px">
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">At this volume</div>
+            <div style="font-size:18px;font-weight:700;color:var(--orange)" id="sliderCPE">$313/export</div>
+          </div>
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Agency equiv.</div>
+            <div style="font-size:18px;font-weight:700;color:var(--coral)" id="sliderAgency">$24,000</div>
+          </div>
+          <div style="background:var(--surf2);border-radius:8px;padding:12px 14px">
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">You save</div>
+            <div style="font-size:18px;font-weight:700;color:var(--gold)" id="sliderSave">90%</div>
+          </div>
+        </div>
+        <div class="chart-container"><canvas id="scaleChart"></canvas></div>
+        <div class="chart-note" id="chartNote">At 1 seat ($2,500/mo): producing 8 exports/mo = $313/export — vs $3,000 agency. Produce more, pay less per export.</div>
+      </div>
+    </div>
+
+    <!-- ── PLATFORM BENCHMARKS ───────────────────────────────────────── -->
+    <div id="section-benchmarks" class="section">
+      <div class="eyebrow">Cost Analysis</div>
+      <h1>Platform Benchmarks</h1>
+      <p class="lead">Active partners with non-zero contract values. Months with fewer than 2 exports excluded from cost/playable to remove billing anomalies.</p>
+
+      <div class="hint hint-orange mb-24">
+        <strong style="color:var(--orange)">Filters applied:</strong> Removed months with &lt;2 exports — eliminates Adikteev ($17,857 at 1 export) and T-Mobile legacy ($20,625 at 0 exports). Median dropped $732 → <strong style="color:#fff">$385</strong>.
+      </div>
+
+      <div style="margin-bottom:28px">
+        <h2>Cost per playable</h2>
+        <div class="grid-4 mb-12">
+          <div class="card"><div class="stat-label">Min</div><div class="stat-value" style="color:var(--coral);font-size:24px">$30</div></div>
+          <div class="card"><div class="stat-label">Median</div><div class="stat-value" style="color:var(--orange);font-size:24px">$385</div></div>
+          <div class="card"><div class="stat-label">Average</div><div class="stat-value" style="color:var(--muted);font-size:24px">$1,136</div></div>
+          <div class="card"><div class="stat-label">Max</div><div class="stat-value" style="color:var(--dim);font-size:24px">$8,928</div></div>
+        </div>
+        <div class="hint hint-gray">Max ($8,928) is Adikteev with 2 exports against a large MRR contract — edge case. Median of <strong style="color:var(--orange)">$385</strong> is the recommended marketing anchor.</div>
+      </div>
+
+      <div style="margin-bottom:28px">
+        <h2>Cost per asset created</h2>
+        <div class="grid-4 mb-12">
+          <div class="card"><div class="stat-label">Min</div><div class="stat-value" style="color:var(--coral);font-size:24px">$42</div></div>
+          <div class="card"><div class="stat-label">Median</div><div class="stat-value" style="color:var(--orange);font-size:24px">$417</div></div>
+          <div class="card"><div class="stat-label">Average</div><div class="stat-value" style="color:var(--muted);font-size:24px">$1,777</div></div>
+          <div class="card"><div class="stat-label">Max</div><div class="stat-value" style="color:var(--dim);font-size:24px">$22,000</div></div>
+        </div>
+        <div class="hint hint-gray">Asset cost peaks from T-Mobile months with minimal output. Median $417 compares favorably to production design rates of $800–$2,000+.</div>
+      </div>
+
+      <div>
+        <h2>Exports per month (active months only)</h2>
+        <div class="grid-4 mb-12">
+          <div class="card"><div class="stat-label">Min</div><div class="stat-value" style="color:var(--dim);font-size:24px">1</div></div>
+          <div class="card"><div class="stat-label">Median</div><div class="stat-value" style="color:var(--orange);font-size:24px">8</div></div>
+          <div class="card"><div class="stat-label">Average</div><div class="stat-value" style="color:var(--muted);font-size:24px">22</div></div>
+          <div class="card"><div class="stat-label">Max</div><div class="stat-value" style="font-size:24px">211</div></div>
+        </div>
+        <div class="hint hint-gray">Stillfront (163/mo peak) and Lightricks (168/mo peak) are high-volume outliers. Median of 8 is the representative monthly baseline.</div>
+      </div>
+    </div>
+
+    <!-- ── PARTNER BREAKDOWN ──────────────────────────────────────────── -->
+    <div id="section-partners" class="section">
+      <div class="eyebrow">Cost Analysis</div>
+      <h1>Partner Breakdown</h1>
+      <p class="lead">Sorted by contract value. Excludes partners with $0 contract value. Avg cost uses months with ≥2 exports only.</p>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <span>Partner</span>
+          <span>Contract</span>
+          <span>Avg $/play</span>
+          <span>Min</span>
+          <span>Max</span>
+          <span>Exp/mo</span>
+        </div>
+        <script>
+          const partners = [
+            { name:"T-Mobile",            contract:528000, avg:2334, min:34,   max:7333,  exp:23 },
+            { name:"Adikteev",            contract:249998, avg:5655, min:3571, max:8928,  exp:3  },
+            { name:"Nanobit",             contract:72000,  avg:879,  min:88,   max:3000,  exp:20 },
+            { name:"Niantic",             contract:66600,  avg:7400, min:7400, max:7400,  exp:0  },
+            { name:"Wildcard",            contract:60000,  avg:268,  min:71,   max:625,   exp:24 },
+            { name:"We Are Wildcards",    contract:60000,  avg:442,  min:152,  max:1000,  exp:14 },
+            { name:"Stillfront",          contract:54000,  avg:268,  min:37,   max:667,   exp:56 },
+            { name:"RZR",                 contract:52500,  avg:765,  min:96,   max:2500,  exp:12 },
+            { name:"Inmobi",              contract:50551,  avg:1500, min:1500, max:1500,  exp:0  },
+            { name:"Remerge",             contract:48000,  avg:868,  min:156,  max:2250,  exp:6  },
+            { name:"Kashkick",            contract:42000,  avg:38,   min:38,   max:38,    exp:91 },
+            { name:"Prodege",             contract:42000,  avg:642,  min:583,  max:700,   exp:2  },
+            { name:"Million Dreams Games",contract:30000,  avg:357,  min:357,  max:357,   exp:4  },
+            { name:"Lightricks",          contract:15000,  avg:640,  min:30,   max:1250,  exp:86 },
+            { name:"Pocketworlds",        contract:9000,   avg:500,  min:250,  max:750,   exp:8  },
+            { name:"Vebo",                contract:7500,   avg:283,  min:208,  max:357,   exp:10 },
+            { name:"Gameberrylabs",       contract:5850,   avg:488,  min:325,  max:650,   exp:3  },
+          ];
+          document.write(partners.map(p => {
+            const below = p.avg < 3000;
+            const pct = below
+              ? Math.round((3000 - p.avg) / 3000 * 100) + '% below market'
+              : Math.round((p.avg - 3000) / 3000 * 100) + '% above market';
+            const tagClass = below ? 'tag-orange' : 'tag-coral';
+            return `<div class="table-row">
+              <div>
+                <div style="color:#fff;font-weight:500">${p.name}</div>
+                <span class="tag ${tagClass}">${pct}</span>
+              </div>
+              <span style="color:var(--muted)">$${(p.contract/1000).toFixed(0)}K</span>
+              <span style="color:${below?'#fff':'#EB5173'};font-weight:500">$${p.avg.toLocaleString()}</span>
+              <span style="color:var(--coral)">$${p.min.toLocaleString()}</span>
+              <span style="color:var(--dim)">$${p.max.toLocaleString()}</span>
+              <span style="color:var(--muted)">${p.exp}</span>
+            </div>`;
+          }).join(''));
+        </script>
+      </div>
+      <div style="font-size:11px;color:var(--dim);margin-top:12px">
+        Source: SAAS Closed Deals Board · 17 partners · 145 active data points (≥2 exports/month)
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // ── Section switching ────────────────────────────────────────────────
+  function showSection(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  // ── Pricing model ────────────────────────────────────────────────────
+  const EXPORTS_PER_SEAT  = 8;
+  const AGENCY_RATE       = 3000;
+  const PLATFORM_MEDIAN   = 385;
+  let   currentSeatCost   = 2500;
+  let   currentExportVol  = 8;
+
+  function seatCost(seats) {
+    return seats === 0 ? 12000 : 2500 + Math.max(0, seats - 1) * 1000;
+  }
+
+  function setSeat(seats, btn) {
+    document.querySelectorAll('.seat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSeatCost = seatCost(seats);
+    const isUnlimited   = seats === 0;
+    const exportsPerMonth = isUnlimited ? 50 : seats * EXPORTS_PER_SEAT;
+    const cpe           = Math.round(currentSeatCost / exportsPerMonth);
+    const agencyCost    = exportsPerMonth * AGENCY_RATE;
+    const savings       = Math.round((agencyCost - currentSeatCost) / agencyCost * 100);
+    const cps           = isUnlimited ? 'Unlimited seats' : '$' + Math.round(currentSeatCost / seats).toLocaleString() + ' per seat';
+
+    document.getElementById('costAmount').textContent    = '$' + currentSeatCost.toLocaleString();
+    document.getElementById('costPerSeat').textContent   = '· ' + cps;
+    document.getElementById('scaleExports').textContent  = '~' + exportsPerMonth + '/mo';
+    document.getElementById('scaleCPE').textContent      = '$' + cpe.toLocaleString();
+    document.getElementById('scaleSavings').textContent  = savings + '%';
+    document.getElementById('scaleSavingsSub').textContent = 'vs $' + agencyCost.toLocaleString() + ' agency equiv.';
+    document.getElementById('chartNote').textContent =
+      isUnlimited
+        ? 'Unlimited tier ($12,000/mo): at 50 exports/mo = $240/export — vs $3,000 agency. Scale without limits.'
+        : `At ${seats} seat${seats>1?'s':''} ($${currentSeatCost.toLocaleString()}/mo): ${exportsPerMonth} exports/mo = $${cpe}/export — vs $${agencyCost.toLocaleString()} agency equivalent.`;
+
+    updateChart(seats);
+    onSliderMove(currentExportVol);
+  }
+
+  // ── Slider interaction ───────────────────────────────────────────────
+  function onSliderMove(val) {
+    currentExportVol = parseInt(val);
+    document.getElementById('sliderVal').textContent = val;
+    const cpe     = Math.round(currentSeatCost / currentExportVol);
+    const agency  = currentExportVol * AGENCY_RATE;
+    const savings = Math.round((agency - currentSeatCost) / agency * 100);
+    document.getElementById('sliderCPE').textContent    = '$' + cpe.toLocaleString() + '/export';
+    document.getElementById('sliderAgency').textContent = '$' + agency.toLocaleString();
+    document.getElementById('sliderSave').textContent   = savings + '%';
+    setChartCrosshair(currentExportVol - 1);
+  }
+
+  // ── Crosshair plugin ─────────────────────────────────────────────────
+  const crosshairPlugin = {
+    id: 'crosshair',
+    afterDraw(chart) {
+      if (chart._crosshairX == null) return;
+      const { ctx, chartArea: { top, bottom } } = chart;
+      const x = chart.getDatasetMeta(0).data[chart._crosshairX]?.x;
+      if (x == null) return;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.strokeStyle = '#FEC01F55';
+      ctx.lineWidth   = 1.5;
+      ctx.setLineDash([4, 3]);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  function setChartCrosshair(index) {
+    if (!scaleChartInstance) return;
+    scaleChartInstance._crosshairX = index;
+    scaleChartInstance.draw();
+  }
+
+  // ── Chart ────────────────────────────────────────────────────────────
+  let scaleChartInstance = null;
+
+  function buildChartData(seats) {
+    const cost      = seatCost(seats);
+    const maxExp    = seats === 0 ? 100 : Math.min(Math.max(seats * EXPORTS_PER_SEAT * 5, 40), 100);
+    const labels    = [], platform = [], agency = [], median = [];
+    for (let e = 1; e <= maxExp; e++) {
+      labels.push(e);
+      platform.push(Math.round(cost / e));
+      agency.push(AGENCY_RATE);
+      median.push(PLATFORM_MEDIAN);
+    }
+    return { labels, platform, agency, median };
+  }
+
+  function updateChart(seats) {
+    const { labels, platform, agency, median } = buildChartData(seats);
+    if (scaleChartInstance) {
+      scaleChartInstance.data.labels               = labels;
+      scaleChartInstance.data.datasets[0].data     = platform;
+      scaleChartInstance.data.datasets[1].data     = agency;
+      scaleChartInstance.data.datasets[2].data     = median;
+      scaleChartInstance.update('none');
+    }
+  }
+
+  window.addEventListener('load', () => {
+    const ctx = document.getElementById('scaleChart').getContext('2d');
+    const { labels, platform, agency, median } = buildChartData(1);
+
+    Chart.register(crosshairPlugin);
+
+    scaleChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'CRAFTSMAN+ (selected tier)',
+            data: platform,
+            borderColor: '#FA6C00',
+            backgroundColor: 'rgba(250,108,0,0.07)',
+            borderWidth: 2.5,
+            pointRadius: 0,
+            fill: true,
+            tension: 0.3,
+            order: 1,
+          },
+          {
+            label: 'Agency rate ($3,000 flat)',
+            data: agency,
+            borderColor: '#EB5173',
+            borderWidth: 1.5,
+            borderDash: [6, 4],
+            pointRadius: 0,
+            fill: false,
+            order: 2,
+          },
+          {
+            label: 'Platform median cost/playable ($385)',
+            data: median,
+            borderColor: '#FEC01F',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            pointRadius: 0,
+            fill: false,
+            order: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        onHover: (e, els, chart) => {
+          if (!els.length) return;
+          const idx = els[0].index;
+          chart._crosshairX = idx;
+          document.getElementById('exportSlider').value = idx + 1;
+          onSliderMove(idx + 1);
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#666',
+              font: { family: 'Poppins', size: 11 },
+              boxWidth: 14, padding: 20,
+              usePointStyle: true, pointStyle: 'line',
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1E1E1E',
+            borderColor: '#363636',
+            borderWidth: 1,
+            titleColor: '#888',
+            bodyColor: '#fff',
+            padding: 12,
+            titleFont: { family: 'Poppins', size: 11 },
+            bodyFont: { family: 'Poppins', size: 12 },
+            callbacks: {
+              title: items => `${items[0].label} exports / month`,
+              label: item => `  ${item.dataset.label.split('(')[0].trim()}: $${item.raw.toLocaleString()}`,
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Exports per month', color: '#555', font: { family: 'Poppins', size: 11 }, padding: { top: 8 } },
+            ticks: { color: '#555', font: { family: 'Poppins', size: 10 }, maxTicksLimit: 12 },
+            grid: { color: '#222' },
+            border: { display: false },
+          },
+          y: {
+            title: { display: true, text: 'Cost per export ($)', color: '#555', font: { family: 'Poppins', size: 11 }, padding: { bottom: 8 } },
+            ticks: {
+              color: '#555', font: { family: 'Poppins', size: 10 },
+              callback: v => '$' + v.toLocaleString(),
+            },
+            grid: { color: '#222' },
+            border: { display: false },
+            min: 0, max: 3200,
+          }
+        }
+      }
+    });
+
+    scaleChartInstance._crosshairX = 7; // default at 8 exports
+    onSliderMove(8);
+  });
+</script>
+</body>
+</html>
